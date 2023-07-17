@@ -1,10 +1,6 @@
 import { dlopen, FFIType, ptr } from "bun:ffi";
 import { Webview } from "./webview";
 
-export function getLibFilename() {
-    return `libwebview${(process.platform === "linux" ? `.so` : `.${process.arch}.dylib`)}`;
-}
-
 /**
  * Encodes a string to a null terminated string.
  *
@@ -34,7 +30,7 @@ export function unload() {
     lib.close();
 }
 
-export const lib = dlopen(process.env.WEBVIEW_PATH ?? `${import.meta.dir}/../build/${getLibFilename()}`, {
+export const lib = dlopen(process.env.WEBVIEW_PATH ?? `${import.meta.dir}/../build/libwebview${(process.platform === "linux" ? `.so` : `.${process.arch}.dylib`)}`, {
     webview_create: {
         args: [FFIType.i32, FFIType.pointer],
         returns: FFIType.pointer
