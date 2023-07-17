@@ -1,7 +1,7 @@
 {
   "name": "webview-bun",
   "description": "Bun bindings for webview, a tiny library for creating web-based desktop GUIs.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "module": "src/index.ts",
   "main": "src/index.ts",
