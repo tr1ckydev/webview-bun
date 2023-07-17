@@ -1,5 +1,6 @@
-import { suffix } from "bun:ffi";
+import { getLibFilename } from "./src/ffi";
+const filename = getLibFilename();
 console.log("Downloading latest libwebview...");
-const res = await fetch(`https://github.com/webview/webview_deno/releases/latest/download/libwebview${(process.platform === "linux" ? `.so` : `.${process.arch}.dylib`)}`);
-await Bun.write(`${import.meta.dir}/build/libwebview.${suffix}`, res);
+const res = await fetch(`https://github.com/tr1ckydev/webview-bun/releases/latest/download/${filename}`);
+await Bun.write(`${import.meta.dir}/build/${filename}`, res);
 console.log("Finished.");

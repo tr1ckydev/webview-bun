@@ -4,6 +4,8 @@
 
 Webview is a tiny cross-platform library to make **web-based GUIs for desktop applications**.
 
+![](banner.png)
+
 
 
 ## Installation
@@ -63,16 +65,16 @@ Refer to the comments in the source code for full documentation.
   git clone --recurse-submodules --remote-submodules https://github.com/tr1ckydev/webview-bun.git
   ```
 
-- Build the library for your platform
+- Install bun-types and build the library for your platform
 
   ```bash
-  bun run build
+  bun i && bun run build
   ```
   
   or, fetch the latest compiled library from the releases of this repository.
   
   ```bash
-  bun run postinstall
+  bun i && bun run postinstall
   ```
 
 ### Running

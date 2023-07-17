@@ -11,8 +11,8 @@
     "fetchLib.ts"
   ],
   "scripts": {
-    "build": "bun run build.ts",
-    "postinstall": "bun run fetchLib.ts"
+    "build": "bun build.ts",
+    "postinstall": "bun fetchLib.ts"
   },
   "repository": {
     "type": "git",
