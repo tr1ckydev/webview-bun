@@ -89,6 +89,12 @@ bun run examples/basic.ts
 
 
 
+## Credits
+
+This repository is a direct port of [webview_deno](https://github.com/webview/webview_deno) by [@eliassjogreen](https://github.com/eliassjogreen) with various changes to work with the bun runtime.
+
+
+
 ## License
 
 This repository uses MIT license. See [LICENSE](https://github.com/tr1ckydev/webview-bun/blob/main/LICENSE) for full license text.
