@@ -1,14 +1,14 @@
-import { CString, FFIType, JSCallback, Pointer } from "bun:ffi";
+import { CString, FFIType, JSCallback, type Pointer } from "bun:ffi";
 import { encodeCString, instances, lib } from "./ffi";
 
 /** Window size */
 export interface Size {
     /** The width of the window */
-    width: number;
+    width: number,
     /** The height of the window */
-    height: number;
+    height: number,
     /** The window size hint */
-    hint: SizeHint;
+    hint: SizeHint,
 }
 
 /** Window size hints */
@@ -23,6 +23,7 @@ export const enum SizeHint {
     FIXED
 };
 
+/** An instance of a webview window.*/
 export class Webview {
     #handle: Pointer | null = null;
     #callbacks: Map<string, JSCallback> = new Map();
@@ -43,7 +44,6 @@ export class Webview {
      * pointer is `HWND` pointer.
      */
     get unsafeWindowHandle() {
-        //@ts-ignore
         return lib.symbols.webview_get_window(this.#handle);
     }
 
@@ -93,7 +93,6 @@ export class Webview {
      * ```
      */
     set title(title: string) {
-        //@ts-ignore
         lib.symbols.webview_set_title(this.#handle, encodeCString(title));
     }
 
@@ -136,30 +135,16 @@ export class Webview {
      * the platform, a `GtkWindow`, `NSWindow` or `HWND` pointer can be passed
      * here.
      */
-    constructor(
-        debug?: boolean,
-        size?: Size,
-        window?: Pointer | null,
-    );
+    constructor(debug?: boolean, size?: Size, window?: Pointer | null);
     constructor(
         debugOrHandle: boolean | Pointer = false,
         size: Size | undefined = { width: 1024, height: 768, hint: SizeHint.NONE },
         window: Pointer | null = null,
     ) {
-        this.#handle =
-            typeof debugOrHandle === "bigint" || typeof debugOrHandle === "number"
-                ? debugOrHandle
-                : lib.symbols.webview_create(
-                    Number(debugOrHandle),
-                    //@ts-ignore
-                    window
-                );
-
-        if (size !== undefined) {
-            this.size = size;
-        }
-
-        // Push this instance to the global instances list to automatically destroy
+        this.#handle = typeof debugOrHandle === "bigint" || typeof debugOrHandle === "number"
+            ? debugOrHandle
+            : lib.symbols.webview_create(Number(debugOrHandle), window);
+        if (size !== undefined) this.size = size;
         instances.push(this);
     }
 
@@ -168,12 +153,8 @@ export class Webview {
      * resources.
      */
     destroy() {
-        for (const callback of Object.keys(this.#callbacks)) {
-            this.unbind(callback);
-        }
-        //@ts-ignore
+        for (const callback of this.#callbacks.keys()) this.unbind(callback);
         lib.symbols.webview_terminate(this.#handle);
-        //@ts-ignore
         lib.symbols.webview_destroy(this.#handle);
         this.#handle = null;
     }
@@ -183,23 +164,15 @@ export class Webview {
      * `"data:text/html,<html>...</html>"`. It is often ok not to url-encodeCString it
      * properly, webview will re-encodeCString it for you.
      */
-    navigate(url: URL | string) {
-        lib.symbols.webview_navigate(
-            //@ts-ignore
-            this.#handle,
-            encodeCString(url instanceof URL ? url.toString() : url),
-        );
+    navigate(url: string) {
+        lib.symbols.webview_navigate(this.#handle, encodeCString(url));
     }
 
     /**
      * Sets the current HTML of the webview to the given html string.
      */
     setHTML(html: string) {
-        lib.symbols.webview_set_html(
-            //@ts-ignore
-            this.#handle,
-            encodeCString(html),
-        );
+        lib.symbols.webview_set_html(this.#handle, encodeCString(html));
     }
 
     /**
@@ -207,7 +180,6 @@ export class Webview {
      * the webview is automatically destroyed.
      */
     run() {
-        //@ts-ignore
         lib.symbols.webview_run(this.#handle);
         this.destroy();
     }
@@ -226,11 +198,7 @@ export class Webview {
      */
     bindRaw(
         name: string,
-        callback: (
-            seq: string,
-            req: string,
-            arg: Pointer | null,
-        ) => void,
+        callback: (seq: string, req: string, arg: Pointer | null) => void,
         arg: Pointer | null = null,
     ) {
         const callbackResource = new JSCallback(
@@ -251,7 +219,6 @@ export class Webview {
         );
         this.#callbacks.set(name, callbackResource);
         lib.symbols.webview_bind(
-            //@ts-ignore
             this.#handle,
             encodeCString(name),
             callbackResource.ptr,
@@ -355,7 +322,6 @@ export class Webview {
      */
     return(seq: string, status: number, result: string) {
         lib.symbols.webview_return(
-            //@ts-ignore
             this.#handle,
             encodeCString(seq),
             status,
@@ -370,7 +336,6 @@ export class Webview {
      * the results of the evaluation.
      */
     eval(source: string) {
-        //@ts-ignore
         lib.symbols.webview_eval(this.#handle, encodeCString(source));
     }
 
@@ -380,7 +345,6 @@ export class Webview {
      * executed. It is guaranteed that code is executed before window.onload.
      */
     init(source: string) {
-        //@ts-ignore
         lib.symbols.webview_init(this.#handle, encodeCString(source));
     }
 }

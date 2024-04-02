@@ -1,18 +1,18 @@
 {
   "name": "webview-bun",
   "description": "Bun bindings for webview, a tiny library for creating web-based desktop GUIs.",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "type": "module",
   "module": "src/index.ts",
   "main": "src/index.ts",
   "files": [
     "src",
     "build",
-    "fetchLib.ts"
+    "scripts/download.ts"
   ],
   "scripts": {
-    "build": "bun build.ts",
-    "postinstall": "bun fetchLib.ts"
+    "build": "bun scripts/build.ts",
+    "postinstall": "bun scripts/download.ts"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,6 @@
   },
   "homepage": "https://github.com/tr1ckydev/webview-bun#readme",
   "devDependencies": {
-    "bun-types": "latest"
+    "@types/bun": "latest"
   }
 }

@@ -1,20 +1,10 @@
 import { dlopen, FFIType, ptr } from "bun:ffi";
 import { Webview } from "./webview";
 
-/**
- * Encodes a string to a null terminated string.
- *
- * @param value The input string
- * @returns A `Pointer` to the null terminated `Uint8Array` of the input string
- */
 export function encodeCString(value: string) {
     return ptr(new TextEncoder().encode(value + "\0"));
 }
 
-/**
- * All active webview instances. This is internally used for automatically
- * destroying all instances once {@link unload} is called.
- */
 export const instances: Webview[] = [];
 
 /**
@@ -24,71 +14,65 @@ export const instances: Webview[] = [];
  * otherwise, you may have to call this manually.
  */
 export function unload() {
-    for (const instance of instances) {
-        instance.destroy();
-    }
+    for (const instance of instances) instance.destroy();
     lib.close();
 }
 
 export const lib = dlopen(process.env.WEBVIEW_PATH ?? `${import.meta.dir}/../build/libwebview${(process.platform === "linux" ? `.so` : `.${process.arch}.dylib`)}`, {
     webview_create: {
-        args: [FFIType.i32, FFIType.pointer],
-        returns: FFIType.pointer
+        args: [FFIType.i32, FFIType.ptr],
+        returns: FFIType.ptr
     },
     webview_destroy: {
-        args: [FFIType.pointer],
+        args: [FFIType.ptr],
         returns: FFIType.void
     },
     webview_run: {
-        args: [FFIType.pointer],
+        args: [FFIType.ptr],
         returns: FFIType.void
     },
     webview_terminate: {
-        args: [FFIType.pointer],
+        args: [FFIType.ptr],
         returns: FFIType.void
     },
-    // webview_dispatch: {
-    //     args: [FFIType.pointer, FFIType.function, FFIType.pointer],
-    //     returns: FFIType.void
-    // },
     webview_get_window: {
-        args: [FFIType.pointer],
-        returns: FFIType.pointer
+        args: [FFIType.ptr],
+        returns: FFIType.ptr
     },
     webview_set_title: {
-        args: [FFIType.pointer, FFIType.pointer],
+        args: [FFIType.ptr, FFIType.ptr],
         returns: FFIType.void
     },
     webview_set_size: {
-        args: [FFIType.pointer, FFIType.i32, FFIType.i32, FFIType.i32],
+        args: [FFIType.ptr, FFIType.i32, FFIType.i32, FFIType.i32],
         returns: FFIType.void
     },
     webview_navigate: {
-        args: [FFIType.pointer, FFIType.pointer],
+        args: [FFIType.ptr, FFIType.ptr],
         returns: FFIType.void
     },
     webview_set_html: {
-        args: [FFIType.pointer, FFIType.pointer],
+        args: [FFIType.ptr, FFIType.ptr],
         returns: FFIType.void
     },
     webview_init: {
-        args: [FFIType.pointer, FFIType.pointer],
+        args: [FFIType.ptr, FFIType.ptr],
         returns: FFIType.void
     },
     webview_eval: {
-        args: [FFIType.pointer, FFIType.pointer],
+        args: [FFIType.ptr, FFIType.ptr],
         returns: FFIType.void
     },
     webview_bind: {
-        args: [FFIType.pointer, FFIType.pointer, FFIType.function, FFIType.pointer],
+        args: [FFIType.ptr, FFIType.ptr, FFIType.function, FFIType.ptr],
         returns: FFIType.void
     },
     webview_unbind: {
-        args: [FFIType.pointer, FFIType.pointer],
+        args: [FFIType.ptr, FFIType.ptr],
         returns: FFIType.void
     },
     webview_return: {
-        args: [FFIType.pointer, FFIType.pointer, FFIType.i32, FFIType.pointer],
+        args: [FFIType.ptr, FFIType.ptr, FFIType.i32, FFIType.ptr],
         returns: FFIType.void
     }
 });
