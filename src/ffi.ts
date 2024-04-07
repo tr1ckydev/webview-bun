@@ -9,16 +9,23 @@ export const instances: Webview[] = [];
 
 /**
  * Unload the library and destroy all webview instances. Should only be run
- * once all windows are closed. If `preload` was called in the main thread,
- * this will automatically be called during the `window.onunload` event;
- * otherwise, you may have to call this manually.
+ * once all windows are closed.
  */
 export function unload() {
     for (const instance of instances) instance.destroy();
     lib.close();
 }
 
-export const lib = dlopen(process.env.WEBVIEW_PATH ?? `${import.meta.dir}/../build/libwebview${(process.platform === "linux" ? `.so` : `.${process.arch}.dylib`)}`, {
+let lib_path = `${import.meta.dir}/../build/`;
+
+switch (process.platform) {
+    case "win32": lib_path += "libwebview.dll"; break;
+    case "linux": lib_path += "libwebview.so"; break;
+    case "darwin": lib_path += `libwebview.${process.arch}.dylib`; break;
+    default: throw "unsupported platform: " + process.platform;
+}
+
+export const lib = dlopen(process.env.WEBVIEW_PATH ?? lib_path, {
     webview_create: {
         args: [FFIType.i32, FFIType.ptr],
         returns: FFIType.ptr

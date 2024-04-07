@@ -1,5 +1,4 @@
 node_modules/
 bun.lockb
-build/libwebview.so
-build/libwebview.x64.dylib
-build/libwebview.arm64.dylib
+build/libwebview.*
+Microsoft.Web.WebView2/
