@@ -6,8 +6,8 @@
   "module": "src/index.ts",
   "main": "src/index.ts",
   "files": [
-    "src",
-    "build",
+    "src/",
+    "build/.gitkeep",
     "scripts/download.ts"
   ],
   "scripts": {

@@ -10,7 +10,7 @@ Webview is a tiny cross-platform library to make **web-based GUIs for desktop ap
 
 ## Installation
 
-> Platforms supported: `linux`, `macos-x64`, `macos-arm64`
+> Platforms supported: `win64`, `linux`, `macos-x64`, `macos-arm64`
 
 - Install [webkit2gtk](https://webkitgtk.org/) dependency for linux.
 
@@ -18,10 +18,10 @@ Webview is a tiny cross-platform library to make **web-based GUIs for desktop ap
 
   Arch Linux: `yay -S webkit2gtk`
 
-- Install `webview-bun` and the latest compiled webview library from the releases of this repository.
+- Install `webview-bun` with trust flag to run postinstall to automatically fetch pre-built library from latest release.
 
   ```bash
-  bun i webview-bun && bun node_modules/webview-bun/fetchLib.ts
+  bun i --trust webview-bun
   ```
 
 
@@ -59,27 +59,28 @@ Refer to the comments in the source code for full documentation.
 
 ### Building
 
-- Clone the repository along with the webview submodule.
+- Clone the repository along with the [webview](https://github.com/webview/webview) submodule.
 
   ```bash
   git clone --recurse-submodules --remote-submodules https://github.com/tr1ckydev/webview-bun.git
+  cd webview-bun
+  bun i
   ```
 
-- Install bun-types and build the library for your platform
+- Build the library for your platform.
 
-  ```bash
-  bun i && bun run build
-  ```
-  
-  or, fetch the latest compiled library from the releases of this repository.
+  > [!IMPORTANT]  
+  > If you are on **Windows,** you need to have `c++` compiler in your PATH. If not already, follow the steps [here](https://code.visualstudio.com/docs/cpp/config-mingw#_installing-the-mingww64-toolchain) to install.
   
   ```bash
-  bun i && bun run postinstall
+  bun run build
   ```
+  
 
 ### Running
 
-> To use your own built webview library, set the `WEBVIEW_PATH` environment variable with the path to your webview shared library file.
+> [!TIP]
+> To use your own webview library, set the `WEBVIEW_PATH` environment variable with the path to your webview shared library file.
 
 Run the following example to see it in action.
 
@@ -87,11 +88,13 @@ Run the following example to see it in action.
 bun run examples/basic.ts
 ```
 
+For more examples, browse the `examples` folder of this repository.
+
 
 
 ## Credits
 
-This repository is a direct port of [webview_deno](https://github.com/webview/webview_deno) by [@eliassjogreen](https://github.com/eliassjogreen) with various changes to work with the bun runtime.
+This repository is a port of [webview_deno](https://github.com/webview/webview_deno) with various changes to work with the bun runtime and new windows build script to compile the latest webview.
 
 
 
