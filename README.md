@@ -57,6 +57,14 @@ Refer to the comments in the source code for full documentation.
 
 ## Development
 
+> [!IMPORTANT]  
+> If you are on **Windows,** you need C++ Build Tools.
+>
+> - Go to https://visualstudio.microsoft.com/downloads.
+> - Scroll down > *All Downloads* > *Tools for Visual Studio*.
+> - Download *Build Tools for Visual Studio 2022* and run.
+> - Select *Desktop development with C++* and install.
+
 ### Building
 
 - Clone the repository along with the [webview](https://github.com/webview/webview) submodule.
@@ -68,14 +76,10 @@ Refer to the comments in the source code for full documentation.
   ```
 
 - Build the library for your platform.
-
-  > [!IMPORTANT]  
-  > If you are on **Windows,** you need to have `c++` compiler in your PATH. If not already, follow the steps [here](https://code.visualstudio.com/docs/cpp/config-mingw#_installing-the-mingww64-toolchain) to install.
   
   ```bash
   bun run build
   ```
-  
 
 ### Running
 
