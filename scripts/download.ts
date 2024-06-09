@@ -7,4 +7,5 @@ switch (process.platform) {
 
 async function dl(filename: string) {
     await Bun.$`curl -sSLo "${import.meta.dir}/../build/${filename}" "https://github.com/tr1ckydev/webview-bun/releases/latest/download/${filename}"`.nothrow();
+    await Bun.$`ln -s ${filename} ${import.meta.dir}/../build/libwebview.bin`.nothrow();
 }

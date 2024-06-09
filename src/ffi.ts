@@ -1,5 +1,6 @@
 import { dlopen, FFIType, ptr } from "bun:ffi";
 import { Webview } from "./webview";
+import bin from "../build/libwebview.bin";
 
 export function encodeCString(value: string) {
     return ptr(new TextEncoder().encode(value + "\0"));
@@ -16,16 +17,7 @@ export function unload() {
     lib.close();
 }
 
-let lib_path = `${import.meta.dir}/../build/`;
-
-switch (process.platform) {
-    case "win32": lib_path += "libwebview.dll"; break;
-    case "linux": lib_path += "libwebview.so"; break;
-    case "darwin": lib_path += `libwebview.${process.arch}.dylib`; break;
-    default: throw "unsupported platform: " + process.platform;
-}
-
-export const lib = dlopen(process.env.WEBVIEW_PATH ?? lib_path, {
+export const lib = dlopen(process.env.WEBVIEW_PATH ?? Bun.file(bin), {
     webview_create: {
         args: [FFIType.i32, FFIType.ptr],
         returns: FFIType.ptr
