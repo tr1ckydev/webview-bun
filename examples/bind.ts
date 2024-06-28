@@ -21,6 +21,6 @@ webview.bind("press", (a, b, c) => {
 });
 
 webview.bind("log", (...args) => console.log(...args));
-
+webview.title = "Bun App";
 webview.setHTML(html);
 webview.run();

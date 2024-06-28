@@ -16,16 +16,27 @@ export function unload() {
     lib.close();
 }
 
-let lib_path = `${import.meta.dir}/../build/`;
+let lib_file;
 
-switch (process.platform) {
-    case "win32": lib_path += "libwebview.dll"; break;
-    case "linux": lib_path += "libwebview.so"; break;
-    case "darwin": lib_path += `libwebview.${process.arch}.dylib`; break;
-    default: throw "unsupported platform: " + process.platform;
+if (process.platform === "win32") {
+    //@ts-expect-error
+    lib_file = await import("../build/libwebview.dll");
+} else if (process.platform === "linux" && process.arch === "x64") {
+    //@ts-expect-error
+    lib_file = await import("../build/libwebview.so");
+} else if (process.platform === "darwin") {
+    if (process.arch === "x64") {
+        //@ts-expect-error
+        lib_file = await import("../build/libwebview.x64.dylib");
+    } else {
+        //@ts-expect-error
+        lib_file = await import("../build/libwebview.arm64.dylib");
+    }
+} else {
+    throw `unsupported platform: ${process.platform}-${process.arch}`;
 }
 
-export const lib = dlopen(process.env.WEBVIEW_PATH ?? lib_path, {
+export const lib = dlopen(process.env.WEBVIEW_PATH ?? lib_file.default, {
     webview_create: {
         args: [FFIType.i32, FFIType.ptr],
         returns: FFIType.ptr

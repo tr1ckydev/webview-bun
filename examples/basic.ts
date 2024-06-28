@@ -9,6 +9,6 @@ const html = `
 `;
 
 const webview = new Webview();
-
+webview.title = "Bun App";
 webview.setHTML(html);
 webview.run();

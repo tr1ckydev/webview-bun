@@ -23,14 +23,4 @@ if not exist "%vc_dir%\Common7\Tools\vsdevcmd.bat" (
 )
 echo Found %vc_dir%
 
-:: 4100: unreferenced formal parameter
-set warning_params=/W4 /wd4100
-
-call "%vc_dir%\Common7\Tools\vsdevcmd.bat" -arch=x64 -host_arch=x64
-echo Building libwebview.dll...
-cl %warning_params% ^
-	/D "WEBVIEW_API=__declspec(dllexport)" ^
-	/I "%script_dir%\..\Microsoft.Web.WebView2\build\native\include" ^
-	"%script_dir%\..\Microsoft.Web.WebView2\build\native\x64\WebView2Loader.dll.lib" ^
-	/std:c++17 /EHsc /Ox ^
-	"%src_dir%\webview.cc" /link /DLL "/OUT:%build_dir%\libwebview.dll" || exit \b
+"%vc_dir%\VC\Tools\MSVC\14.40.33807\bin\Hostx64\x64\editbin.exe" /subsystem:windows %1

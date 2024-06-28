@@ -1,4 +1,3 @@
 node_modules/
 bun.lockb
-build/libwebview.*
 Microsoft.Web.WebView2/
