@@ -16,6 +16,8 @@ export function unload() {
     lib.close();
 }
 
+const lib_file = (await getLibFile()).default;
+
 /**
  * It determines the appropriate lib file for the given platform and environment.
  *
@@ -56,8 +58,6 @@ function getLibFile(): Promise<{ default: string }> {
 	}
 	throw `unsupported platform: ${process.platform}-${process.arch}`;
 }
-
-const lib_file = (await getLibFile()).default;
 
 export const lib = dlopen(lib_file, {
     webview_create: {
@@ -117,3 +117,4 @@ export const lib = dlopen(lib_file, {
         returns: FFIType.void
     }
 });
+
