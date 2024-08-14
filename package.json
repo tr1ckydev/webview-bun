@@ -1,33 +1,36 @@
 {
-  "name": "webview-bun",
-  "description": "Bun bindings for webview, a tiny library for creating web-based desktop GUIs.",
-  "version": "2.1.0",
-  "type": "module",
-  "module": "src/index.ts",
-  "main": "src/index.ts",
-  "files": [
-    "src/",
-    "build/"
-  ],
-  "scripts": {
-    "build": "bun scripts/build.ts"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tr1ckydev/webview-bun.git"
-  },
-  "keywords": [
-    "bun",
-    "webview",
-    "webview-bun"
-  ],
-  "author": "tr1ckydev",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/tr1ckydev/webview-bun/issues"
-  },
-  "homepage": "https://github.com/tr1ckydev/webview-bun#readme",
-  "devDependencies": {
-    "@types/bun": "latest"
-  }
+	"name": "webview-bun",
+	"description": "Bun bindings for webview, a tiny library for creating web-based desktop GUIs.",
+	"version": "2.1.1",
+	"type": "module",
+	"module": "src/index.ts",
+	"main": "src/index.ts",
+	"files": [
+		"src/",
+		"build/"
+	],
+	"scripts": {
+		"build": "bun scripts/build.ts"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/tr1ckydev/webview-bun.git"
+	},
+	"keywords": [
+		"bun",
+		"webview",
+		"webview-bun"
+	],
+	"author": "tr1ckydev",
+	"license": "MIT",
+	"contributors": [
+		"citkane"
+	],
+	"bugs": {
+		"url": "https://github.com/tr1ckydev/webview-bun/issues"
+	},
+	"homepage": "https://github.com/tr1ckydev/webview-bun#readme",
+	"devDependencies": {
+		"@types/bun": "latest"
+	}
 }
