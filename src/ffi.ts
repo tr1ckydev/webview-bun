@@ -18,7 +18,9 @@ export function unload() {
 
 let lib_file;
 
-if (process.platform === "win32") {
+if (process.env.WEBVIEW_PATH) {
+    lib_file = await import(process.env.WEBVIEW_PATH);
+} else if (process.platform === "win32") {
     //@ts-expect-error
     lib_file = await import("../build/libwebview.dll");
 } else if (process.platform === "linux" && process.arch === "x64") {
@@ -36,7 +38,7 @@ if (process.platform === "win32") {
     throw `unsupported platform: ${process.platform}-${process.arch}`;
 }
 
-export const lib = dlopen(process.env.WEBVIEW_PATH ?? lib_file.default, {
+export const lib = dlopen(lib_file.default, {
     webview_create: {
         args: [FFIType.i32, FFIType.ptr],
         returns: FFIType.ptr

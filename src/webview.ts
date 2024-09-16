@@ -289,9 +289,7 @@ export class Webview {
                 success = false;
             }
             if (result instanceof Promise) {
-                result.then((result) =>
-                    this.return(seq, success ? 0 : 1, JSON.stringify(result))
-                );
+                result.then(r => this.return(seq, success ? 0 : 1, JSON.stringify(r)));
             } else {
                 this.return(seq, success ? 0 : 1, JSON.stringify(result));
             }
