@@ -27,13 +27,8 @@ if (process.env.WEBVIEW_PATH) {
     //@ts-expect-error
     lib_file = await import("../build/libwebview.so");
 } else if (process.platform === "darwin") {
-    if (process.arch === "x64") {
-        //@ts-expect-error
-        lib_file = await import("../build/libwebview.x64.dylib");
-    } else {
-        //@ts-expect-error
-        lib_file = await import("../build/libwebview.arm64.dylib");
-    }
+    //@ts-expect-error
+    lib_file = await import("../build/libwebview.dylib");
 } else {
     throw `unsupported platform: ${process.platform}-${process.arch}`;
 }

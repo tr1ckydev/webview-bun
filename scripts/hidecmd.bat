@@ -1,9 +1,4 @@
 @echo off
-
-set script_dir=%~dp0
-set src_dir=%script_dir%..\webview
-set build_dir=%script_dir%..\build
-
 echo Looking for vswhere.exe...
 set "vswhere=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 if not exist "%vswhere%" set "vswhere=%ProgramFiles%\Microsoft Visual Studio\Installer\vswhere.exe"
@@ -23,4 +18,6 @@ if not exist "%vc_dir%\Common7\Tools\vsdevcmd.bat" (
 )
 echo Found %vc_dir%
 
-"%vc_dir%\VC\Tools\MSVC\14.40.33807\bin\Hostx64\x64\editbin.exe" /subsystem:windows %1
+call "%vc_dir%\Common7\Tools\vsdevcmd.bat" -arch=x64 -host_arch=x64
+
+editbin /SUBSYSTEM:WINDOWS %1

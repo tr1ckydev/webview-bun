@@ -1,3 +1,3 @@
 export { unload } from "./ffi";
 export * from "./webview";
-export const VERSION = "0.12.0";
+export const WEBVIEW_VERSION = "0.12.0";

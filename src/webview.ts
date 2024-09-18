@@ -68,9 +68,7 @@ export class Webview {
      * webview.run();
      * ```
      */
-    set size(
-        { width, height, hint }: Size,
-    ) {
+    set size({ width, height, hint }: Size) {
         //@ts-ignore
         lib.symbols.webview_set_size(this.#handle, width, height, hint);
     }
@@ -273,10 +271,7 @@ export class Webview {
      * webview.run();
      * ```
      */
-    bind(
-        name: string,
-        callback: (...args: any) => any,
-    ) {
+    bind(name: string, callback: (...args: any) => any) {
         this.bindRaw(name, (seq, req) => {
             const args = JSON.parse(req);
             let result;
