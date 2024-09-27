@@ -2,13 +2,9 @@ import { $ } from "bun";
 $.nothrow();
 
 const { arch, platform } = process;
-const unsupported = () => {
-  throw `unsupported platform: ${platform}-${arch}`;
-};
 
 switch (platform) {
     case "win32":
-        if (arch !== "x64") unsupported();
         await $`
         scripts/build.bat
         cp webview/build/core/Release/webview.dll build/libwebview.dll
@@ -32,6 +28,4 @@ switch (platform) {
         strip -x -S ../build/libwebview.dylib
         `;
         break;
-    default:
-        unsuported();
 }
