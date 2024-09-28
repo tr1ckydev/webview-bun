@@ -23,9 +23,8 @@ if (process.env.WEBVIEW_PATH) {
 } else if (process.platform === "win32") {
     //@ts-expect-error
     lib_file = await import("../build/libwebview.dll");
-} else if (process.platform === "linux" && process.arch === "x64") {
-    //@ts-expect-error
-    lib_file = await import("../build/libwebview.so");
+} else if (process.platform === "linux") {
+    lib_file = await import(`../build/libwebview-${process.arch}.so`);
 } else if (process.platform === "darwin") {
     //@ts-expect-error
     lib_file = await import("../build/libwebview.dylib");
