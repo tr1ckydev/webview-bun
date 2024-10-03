@@ -88,7 +88,7 @@ Bun now supports cross-compilation of single executable binaries. To cross compi
 bun build --compile --target=bun-windows-x64 --minify --sourcemap ./examples/todoapp/app.ts --outfile todoapp
 ```
 
-Supported targets are: `bun-linux-x64`, `bun-windows-x64`, `bun-darwin-x64`, `bun-darwin-arm64`.
+See [full list](https://github.com/oven-sh/bun/blob/main/docs/bundler/executables.md#supported-targets) of supported `target`s.
 
 ### Bun.serve with webview
 
@@ -129,8 +129,7 @@ In addition to the dependencies mentioned during the Installation section, you n
 
 - `cmake`
 - `ninja`
-- `doxygen`
-- `graphviz`
+- `python3`
 
 ### Building
 
