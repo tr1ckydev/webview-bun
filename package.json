@@ -1,5 +1,5 @@
 {
-  "name": "webview-bun",
+  "name": "@webreflection/webview-bun",
   "description": "Bun bindings for webview, a tiny library for creating web-based desktop GUIs.",
   "version": "2.3.0",
   "type": "module",
