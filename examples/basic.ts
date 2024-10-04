@@ -1,4 +1,4 @@
-import { Webview } from "../src";
+import { SizeHint, Webview } from "../src";
 
 const html = `
 <html>
@@ -8,7 +8,9 @@ const html = `
 </html>
 `;
 
-const webview = new Webview();
+const webview = new Webview(false, { hint: SizeHint.FULLSCREEN });
+// webview.decorated = false;
+// webview.fullscreen();
 webview.title = "Bun App";
 webview.setHTML(html);
 webview.run();

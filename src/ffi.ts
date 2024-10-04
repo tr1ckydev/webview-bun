@@ -53,6 +53,14 @@ export const lib = dlopen(lib_file.default, {
         args: [FFIType.ptr],
         returns: FFIType.ptr
     },
+    webview_set_fullscreen: {
+        args: [FFIType.ptr],
+        returns: FFIType.void
+    },
+    webview_set_decorated: {
+        args: [FFIType.ptr, FFIType.i32],
+        returns: FFIType.void
+    },
     webview_set_title: {
         args: [FFIType.ptr, FFIType.ptr],
         returns: FFIType.void

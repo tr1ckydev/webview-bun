@@ -3,6 +3,8 @@ import { encodeCString, instances, lib } from "./ffi";
 
 /** Window size */
 export interface Size {
+    /** The window has chrome around */
+    decorated: boolean,
     /** The width of the window */
     width: number,
     /** The height of the window */
@@ -20,7 +22,9 @@ export const enum SizeHint {
     /** Width and height are maximum bounds */
     MAX,
     /** Window size can not be changed by a user */
-    FIXED
+    FIXED,
+    /** Window is fullscreen */
+    FULLSCREEN,
 };
 
 /** An instance of a webview window.*/
@@ -47,6 +51,10 @@ export class Webview {
         return lib.symbols.webview_get_window(this.#handle);
     }
 
+    set decorated(value:boolean) {
+        lib.symbols.webview_set_decorated(this.#handle, +value);
+    }
+
     /**
      * Sets the native window size
      *
@@ -69,8 +77,12 @@ export class Webview {
      * ```
      */
     set size({ width, height, hint }: Size) {
-        //@ts-ignore
-        lib.symbols.webview_set_size(this.#handle, width, height, hint);
+        if (hint === SizeHint.FULLSCREEN)
+            this.fullscreen();
+        else {
+            //@ts-ignore
+            lib.symbols.webview_set_size(this.#handle, width, height, hint);
+        }
     }
 
     /**
@@ -136,13 +148,17 @@ export class Webview {
     constructor(debug?: boolean, size?: Size, window?: Pointer | null);
     constructor(
         debugOrHandle: boolean | Pointer = false,
-        size: Size | undefined = { width: 1024, height: 768, hint: SizeHint.NONE },
+        size: Size | undefined = { decorated: true, width: 1024, height: 768, hint: SizeHint.NONE },
         window: Pointer | null = null,
     ) {
         this.#handle = typeof debugOrHandle === "bigint" || typeof debugOrHandle === "number"
             ? debugOrHandle
             : lib.symbols.webview_create(Number(debugOrHandle), window);
-        if (size !== undefined) this.size = size;
+        if (size !== undefined) {
+            this.size = size;
+            if (size.decorated === false)
+                this.decorated = false;
+        }
         instances.push(this);
     }
 
@@ -155,6 +171,11 @@ export class Webview {
         lib.symbols.webview_terminate(this.#handle);
         lib.symbols.webview_destroy(this.#handle);
         this.#handle = null;
+    }
+
+    /** Creates a full screen window */
+    fullscreen() {
+        lib.symbols.webview_set_fullscreen(this.#handle);
     }
 
     /**
