@@ -111,6 +111,8 @@ Refer to the comments in the source code for full documentation.
 
 ## Development
 
+Please format all code with [Prettier](https://prettier.io/) and the root `.prettierrc`. You can run `bun pretty` to automatically do this if it is not integrated in your IDE.
+
 > [!IMPORTANT]  
 > If you are on **Windows,** you need C++ Build Tools.
 >
