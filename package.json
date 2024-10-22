@@ -24,6 +24,11 @@
   ],
   "author": "tr1ckydev",
   "license": "MIT",
+  "contributors": [
+    "citkane",
+    "WebReflection",
+    "StrangeBytesDev"
+  ],
   "bugs": {
     "url": "https://github.com/tr1ckydev/webview-bun/issues"
   },
