@@ -13,10 +13,9 @@ switch (platform) {
   case "linux":
     await $`
         cd webview
-        cmake -G "Ninja Multi-Config" -B build -S . -DWEBVIEW_WEBKITGTK_API=6.0
-        cmake --build build --config Release
-        cp build/core/Release/libwebview.so ../build/libwebview-${arch}.so
-        strip ../build/libwebview-${arch}.so
+        cmake -G Ninja -B build -S . -D CMAKE_BUILD_TYPE=Release -D WEBVIEW_WEBKITGTK_API=6.0 -D WEBVIEW_BUILD_AMALGAMATION=true -D WEBVIEW_PACKAGE_AMALGAMATION=true
+        cmake --build build
+        cp build/core/libwebview.so.0.12.0 ../build/libwebview-${arch}.so
         `;
     break;
   case "darwin":
