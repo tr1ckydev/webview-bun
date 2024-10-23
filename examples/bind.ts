@@ -1,4 +1,4 @@
-import { Webview } from '../src';
+import { Webview } from "../src";
 
 const html = `
 <html>
@@ -15,12 +15,12 @@ const webview = new Webview();
 
 let counter = 0;
 
-webview.bind('press', (a, b, c) => {
-	console.log(a, b, c);
-	return { times: counter++ };
+webview.bind("press", (a, b, c) => {
+  console.log(a, b, c);
+  return { times: counter++ };
 });
 
-webview.bind('log', (...args) => console.log(...args));
-webview.title = 'Bun App';
+webview.bind("log", (...args) => console.log(...args));
+webview.title = "Bun App";
 webview.setHTML(html);
 webview.run();

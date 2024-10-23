@@ -14,9 +14,9 @@ Webview is a tiny cross-platform library to make **web-based GUIs for desktop ap
 
 > To use a different version, see Development section below.
 
--   Debian-based systems: `apt install libgtk-4-1 libwebkitgtk-6.0-4`
--   Arch-based systems: `yay -S gtk4 webkitgtk-6.0`
--   Fedora-based systems: `dnf install gtk4 webkitgtk6.0`
+- Debian-based systems: `apt install libgtk-4-1 libwebkitgtk-6.0-4`
+- Arch-based systems: `yay -S gtk4 webkitgtk-6.0`
+- Fedora-based systems: `dnf install gtk4 webkitgtk6.0`
 </details>
 
 <details>
@@ -37,7 +37,7 @@ bun i webview-bun
 ## Example
 
 ```typescript
-import { Webview } from 'webview-bun';
+import { Webview } from "webview-bun";
 
 const html = `
 <html>
@@ -116,42 +116,42 @@ Please format all code with [Prettier](https://prettier.io/) and the root `.pret
 > [!IMPORTANT]  
 > If you are on **Windows,** you need C++ Build Tools.
 >
-> -   Go to https://visualstudio.microsoft.com/downloads.
-> -   Scroll down > _All Downloads_ > _Tools for Visual Studio_.
-> -   Download _Build Tools for Visual Studio 2022_ and run.
-> -   Select _Desktop development with C++_ and install.
+> - Go to https://visualstudio.microsoft.com/downloads.
+> - Scroll down > _All Downloads_ > _Tools for Visual Studio_.
+> - Download _Build Tools for Visual Studio 2022_ and run.
+> - Select _Desktop development with C++_ and install.
 
 ### Prerequisites
 
 In addition to the dependencies mentioned during the Installation section, you need,
 
--   `cmake`
--   `ninja`
--   `python3`
+- `cmake`
+- `ninja`
+- `python3`
 
 ### Building
 
--   Clone the repository along with the [webview](https://github.com/webview/webview) submodule.
+- Clone the repository along with the [webview](https://github.com/webview/webview) submodule.
 
-    ```bash
-    git clone --recurse-submodules https://github.com/tr1ckydev/webview-bun
-    cd webview-bun
-    bun i
-    ```
+  ```bash
+  git clone --recurse-submodules https://github.com/tr1ckydev/webview-bun
+  cd webview-bun
+  bun i
+  ```
 
--   Build the library for your platform.
+- Build the library for your platform.
 
-    > Under the hood, it invokes webview's own cmake build system to compile the shared library file.
+  > Under the hood, it invokes webview's own cmake build system to compile the shared library file.
 
-    ```bash
-    bun run build
-    ```
+  ```bash
+  bun run build
+  ```
 
--   (Optional) Clear the build cache.
+- (Optional) Clear the build cache.
 
-    ```bash
-    bun clean
-    ```
+  ```bash
+  bun clean
+  ```
 
 The compiled library file can be found inside the `build` folder.
 
