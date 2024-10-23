@@ -16,40 +16,23 @@ export function unload() {
   lib.close();
 }
 
-const lib_file = (await getLibFile()).default;
+let lib_file;
 
-/**
- * It determines the appropriate lib file for the given platform and environment.
- *
- * A `string` file location is the technically requirement, however to
- * trigger bun to bundle the lib files as external resources, `import` is
- * called here, which also returns the `default` string property for the path.
- *
- * If `process.env.WEBVIEW_PATH` is preferred, listing the default lib (absolute)
- * file paths in `Bun.build({ external: []}` will exclude them. Be sure to
- * manually include your custom lib file in your distribution bundle.
- */
-function getLibFile(): Promise<{ default: string }> {
-  if (!!process.env.WEBVIEW_PATH)
-    return Promise.resolve().then(() => ({
-      default: process.env.WEBVIEW_PATH!,
-    }));
-
-  const { platform, arch } = process;
-
-  if (platform === "win32")
-    //@ts-expect-error
-    return import("../build/libwebview.dll");
-  if (platform === "linux" && (arch === "x64" || arch === "arm64"))
-    return import(`../build/libwebview-${arch}.so`);
-  if (platform === "darwin")
-    //@ts-expect-error
-    return import("../build/libwebview.dylib");
-
-  throw `unsupported platform: ${platform}-${arch}`;
+if (process.env.WEBVIEW_PATH) {
+  lib_file = { default: process.env.WEBVIEW_PATH };
+} else if (process.platform === "win32") {
+  //@ts-expect-error
+  lib_file = await import("../build/libwebview.dll");
+} else if (process.platform === "linux") {
+  lib_file = await import(`../build/libwebview-${process.arch}.so`);
+} else if (process.platform === "darwin") {
+  //@ts-expect-error
+  lib_file = await import("../build/libwebview.dylib");
+} else {
+  throw `unsupported platform: ${process.platform}-${process.arch}`;
 }
 
-export const lib = dlopen(lib_file, {
+export const lib = dlopen(lib_file.default, {
   webview_create: {
     args: [FFIType.i32, FFIType.ptr],
     returns: FFIType.ptr,
