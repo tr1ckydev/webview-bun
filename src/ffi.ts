@@ -42,21 +42,14 @@ function getLibFile(): Promise<{ default: string }> {
 		//@ts-expect-error
 		return import("../build/libwebview.dll");
 	}
-	if (platform === "linux" && arch === "x64") {
+	if (platform === "linux" && (arch === "x64" || arch === "arm64")) {
+		return import(`../build/libwebview-${arch}.so`);
+	}
+	if (platform === "darwin") {
 		//@ts-expect-error
-		return import("../build/libwebview.so");
+		return import("../build/libwebview.dylib");
 	}
-	if (platform === "darwin" && (arch === "x64" || arch === "arm64")) {
-		switch (arch) {
-			case "x64":
-				//@ts-expect-error
-				return import("../build/libwebview.x64.dylib");
-			case "arm64":
-				//@ts-expect-error
-				return import("../build/libwebview.arm64.dylib");
-		}
-	}
-	throw `unsupported platform: ${process.platform}-${process.arch}`;
+	throw `unsupported platform: ${platform}-${arch}`;
 }
 
 export const lib = dlopen(lib_file, {
