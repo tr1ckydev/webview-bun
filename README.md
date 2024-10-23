@@ -8,32 +8,25 @@ Webview is a tiny cross-platform library to make **web-based GUIs for desktop ap
 
 ## Installation
 
-> Platforms supported:
->
-> - `windows-x64`
-> - `linux-x64`
-> - `macos-x64`
-> - `macos-arm64`
-
 <details>
-  <summary>Click here for instructions on linux</summary>
-  Install the <a href="https://webkitgtk.org/">webkit</a> dependency.
+  <summary>Click here for instructions on 🐧 Linux</summary>
+  The compiled linux library in this package requires GTK 4 and WebkitGTK 6.
 
-  ### Debian-based systems:
-  * Development: `apt install libgtk-3-dev libwebkit2gtk-4.0-dev`
-  * Production: `apt install libgtk-3-0 libwebkit2gtk-4.0-37`
+  > To use a different version, see Development section below.
 
-  ### Fedora-based systems:
-  * Development: `dnf install gtk3-devel webkit2gtk4.0-devel`
-  * Production: `dnf install gtk3 webkit2gtk4.0`
-
-  ### Arch-based systems:
-  `yay -S webkit2gtk`
+  - Debian-based systems: `apt install libgtk-4-1 libwebkitgtk-6.0-4`
+  - Arch-based systems: `yay -S gtk4 webkitgtk-6.0`
+  - Fedora-based systems: `dnf install gtk4 webkitgtk6.0`
 </details>
 
 <details>
-  <summary>Click here for instructions on windows</summary>
-  Must have the <a href="https://developer.microsoft.com/en-us/microsoft-edge/webview2/">WebView2 runtime</a> installed on the system for any version of Windows before Windows 11.
+  <summary>Click here for instructions on 🪟 Windows</summary>
+  The compiled windows library in this package does not bundle any webview version with itself but rather uses the system installed one.
+
+  > To bundle a specific version, see Development section below.
+
+  The <a href="https://developer.microsoft.com/en-us/microsoft-edge/webview2/">Microsoft Edge WebView2</a> runtime is required to be installed on the system for any version of Windows before Windows 11.
+  To manually update or install the latest version, follow the steps <a href="https://github.com/MicrosoftEdge/WebView2Feedback/issues/3371#issuecomment-1500917825">here</a>.
 </details>
 
 ```bash
@@ -69,7 +62,7 @@ For more examples, browse the `examples` folder of this repository.
 
 You can compile a single self-sufficient executable file for your webview app.
 
-For example, let's create a single executable for the above Todo App. Clone this repository and run,
+For example, let's create a single executable for the above To-Do app. Clone this repository and run,
 
 ```bash
 bun build --compile --minify --sourcemap ./examples/todoapp/app.ts --outfile todoapp
@@ -77,13 +70,13 @@ bun build --compile --minify --sourcemap ./examples/todoapp/app.ts --outfile tod
 > [!TIP]  
 > By default, a terminal window will also open in the back when double-click opening the executable in Windows and macOS.
 >
-> #### To hide it in Windows:
-> Download [hidecmd.bat](https://github.com/tr1ckydev/webview-bun/blob/main/scripts/hidecmd.bat) from this repository and save in the same folder as the binary. Open the terminal there and execute,
+> #### 🪟 To hide it in Windows:
+> Download [hidecmd.bat](https://github.com/tr1ckydev/webview-bun/blob/main/scripts/hidecmd.bat) from this repository and save in the same folder as the binary. Open terminal there and execute,
 > ```bash
 > .\hidecmd.bat todoapp.exe
 > ```
 >
-> #### To hide it in macOS:
+> #### 🍎 To hide it in macOS:
 > Add the extension `.app` in the end of the above bun build command.
 
 
@@ -95,7 +88,22 @@ Bun now supports cross-compilation of single executable binaries. To cross compi
 bun build --compile --target=bun-windows-x64 --minify --sourcemap ./examples/todoapp/app.ts --outfile todoapp
 ```
 
-Supported targets are: `bun-linux-x64`, `bun-windows-x64`, `bun-darwin-x64`, `bun-darwin-arm64`.
+See [full list](https://github.com/oven-sh/bun/blob/main/docs/bundler/executables.md#supported-targets) of supported `target`s.
+
+### Bun.serve with webview
+
+If you run a web server it will block the main thread, but using workers you can run the webview window on another thread.
+
+[From Bun v1.1.25, you can now embed worker scripts in a standalone executable.](https://bun.sh/blog/bun-v1.1.25#worker-in-standalone-executables) Clone this repository then,
+
+```bash
+cd examples/webserver/
+bun build --compile --minify --sourcemap ./index.ts ./worker.ts --outfile webserver
+```
+
+> [!NOTE]
+>
+> On macOS, this doesn't work due to some bug in bun as webview window doesn't open from a worker.
 
 
 
@@ -115,23 +123,47 @@ Refer to the comments in the source code for full documentation.
 > - Download *Build Tools for Visual Studio 2022* and run.
 > - Select *Desktop development with C++* and install.
 
+### Prerequisites
+
+In addition to the dependencies mentioned during the Installation section, you need,
+
+- `cmake`
+- `ninja`
+- `python3`
+
 ### Building
 
 - Clone the repository along with the [webview](https://github.com/webview/webview) submodule.
 
   ```bash
-  git clone --recurse-submodules --remote-submodules https://github.com/tr1ckydev/webview-bun.git
+  git clone --recurse-submodules https://github.com/tr1ckydev/webview-bun
   cd webview-bun
   bun i
   ```
 
 - Build the library for your platform.
   
+  > Under the hood, it invokes webview's own cmake build system to compile the shared library file.
+  
   ```bash
   bun run build
   ```
+  
+- (Optional) Clear the build cache.
 
-The compiled library file(s) can be found inside the build folder.
+  ```bash
+  bun clean
+  ```
+
+The compiled library file can be found inside the `build` folder.
+
+### Customization
+
+🐧 For linux, if you want to use a different WebkitGTK version, change the cmake `WEBVIEW_WEBKITGTK_API` option in *build.ts* to one of the [available values](https://github.com/webview/webview?tab=readme-ov-file#linux-specific-options).
+
+🪟 For windows, if you want to bundle a specific webview version instead of using the system installed one, set the cmake `WEBVIEW_MSWEBVIEW2_VERSION` option to one of the [NuGet version strings](https://www.nuget.org/packages/Microsoft.Web.WebView2/#versions-body-tab).
+
+Check out the [webview build docs](https://github.com/webview/webview?tab=readme-ov-file#customization) for more options.
 
 ### Running
 
@@ -148,17 +180,9 @@ For more examples, browse the `examples` folder of this repository.
 
 
 
-## Important note for Windows users
-
-The `libwebview.dll` is sometimes detected as a potential malware by the Windows Defender which is a **false positive** and is **safe** to restore.
-
-If this concerns you, feel free to compile the library yourself from source using the instructions provided above.
-
-
-
 ## Credits
 
-This repository is a port of [webview_deno](https://github.com/webview/webview_deno) with various changes to work with the bun runtime and new windows build script to compile the latest webview.
+This repository is a port of [webview_deno](https://github.com/webview/webview_deno) with various changes to work with the bun runtime.
 
 
 
