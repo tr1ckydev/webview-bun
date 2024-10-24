@@ -19,7 +19,7 @@ export function unload() {
 let lib_file;
 
 if (process.env.WEBVIEW_PATH) {
-  lib_file = await import(process.env.WEBVIEW_PATH);
+  lib_file = { default: process.env.WEBVIEW_PATH };
 } else if (process.platform === "win32") {
   //@ts-expect-error
   lib_file = await import("../build/libwebview.dll");
