@@ -12,7 +12,7 @@
   "scripts": {
     "build": "bun scripts/build.ts",
     "clean": "bun exec \"rm -rf webview/build\"",
-    "pretty": "bun prettier . --write"
+    "pretty": "bunx --bun prettier . --write"
   },
   "repository": {
     "type": "git",
@@ -35,7 +35,6 @@
   },
   "homepage": "https://github.com/tr1ckydev/webview-bun#readme",
   "devDependencies": {
-    "@types/bun": "latest",
-    "prettier": "3.3.3"
+    "@types/bun": "latest"
   }
 }

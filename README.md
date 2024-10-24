@@ -14,9 +14,9 @@ Webview is a tiny cross-platform library to make **web-based GUIs for desktop ap
 
 > To use a different version, see Development section below.
 
-  - Debian-based systems: `apt install libgtk-4-1 libwebkitgtk-6.0-4 libwebkitgtk-6.0-dev`
-  - Arch-based systems: `yay -S gtk4 webkitgtk-6.0`
-  - Fedora-based systems: `dnf install gtk4 webkitgtk6.0`
+- Debian-based systems: `apt install libgtk-4-1 libwebkitgtk-6.0-4 libwebkitgtk-6.0-dev`
+- Arch-based systems: `yay -S gtk4 webkitgtk-6.0`
+- Fedora-based systems: `dnf install gtk4 webkitgtk6.0`
 
 </details>
 
