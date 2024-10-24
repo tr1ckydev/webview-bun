@@ -1,7 +1,7 @@
 const server = Bun.serve({
-    fetch() {
-        return Response.json({ success: true });
-    }
+  fetch() {
+    return Response.json({ success: true });
+  },
 });
 
 const worker = new Worker("./worker.ts");

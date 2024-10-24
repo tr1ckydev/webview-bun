@@ -1,11 +1,11 @@
-import fs from 'node:fs'
+import fs from "node:fs";
 
 const IMAGE_SUBSYSTEM_WINDOWS_GUI = 2;
-const PE_HEADER_OFFSET_LOCATION = 0x3C;
-const SUBSYSTEM_OFFSET = 0x5C;
+const PE_HEADER_OFFSET_LOCATION = 0x3c;
+const SUBSYSTEM_OFFSET = 0x5c;
 
 function modifyBinarySubsystem(filePath: string) {
-  const fd = fs.openSync(filePath, 'r+');
+  const fd = fs.openSync(filePath, "r+");
   const buffer = Buffer.alloc(4);
 
   // Read PE header offset from 0x3C
@@ -21,12 +21,14 @@ function modifyBinarySubsystem(filePath: string) {
   fs.writeSync(fd, subsystemBuffer, 0, 2, subsystemOffset);
 
   fs.closeSync(fd);
-  console.log("Successfully modified the binary to hide the console at startup.");
+  console.log(
+    "Successfully modified the binary to hide the console at startup.",
+  );
 }
 
 // Usage: Provide the path to the binary
 if (process.argv.length !== 3) {
-  console.log('Usage: node modify-binary.js <path-to-binary>');
+  console.log("Usage: node modify-binary.js <path-to-binary>");
   process.exit(1);
 }
 

@@ -16,8 +16,8 @@ const webview = new Webview();
 let counter = 0;
 
 webview.bind("press", (a, b, c) => {
-    console.log(a, b, c);
-    return { times: counter++ };
+  console.log(a, b, c);
+  return { times: counter++ };
 });
 
 webview.bind("log", (...args) => console.log(...args));
