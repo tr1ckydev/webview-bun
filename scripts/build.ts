@@ -13,7 +13,7 @@ switch (platform) {
   case "linux":
     await $`
         cd webview
-        cmake -G Ninja -B build -S . -D CMAKE_BUILD_TYPE=Release -D WEBVIEW_WEBKITGTK_API=6.0 -D WEBVIEW_BUILD_AMALGAMATION=true -D WEBVIEW_PACKAGE_AMALGAMATION=true
+        cmake -G Ninja -B build -S . -D CMAKE_BUILD_TYPE=Release -D WEBVIEW_WEBKITGTK_API=4.1 -D WEBVIEW_BUILD_AMALGAMATION=true -D WEBVIEW_PACKAGE_AMALGAMATION=true
         cmake --build build
         cp build/core/libwebview.so ../build/libwebview-${arch}.so
         `;
