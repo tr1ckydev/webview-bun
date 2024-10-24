@@ -136,7 +136,11 @@ export class Webview {
   constructor(debug?: boolean, size?: Size, window?: Pointer | null);
   constructor(
     debugOrHandle: boolean | Pointer = false,
-    size: Size | undefined = { width: 1024, height: 768, hint: SizeHint.NONE },
+    size: Size | undefined = {
+      width: 1024,
+      height: 768,
+      hint: SizeHint.NONE,
+    },
     window: Pointer | null = null,
   ) {
     this.#handle =

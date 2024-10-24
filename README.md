@@ -17,6 +17,7 @@ Webview is a tiny cross-platform library to make **web-based GUIs for desktop ap
 - Debian-based systems: `apt install libgtk-4-1 libwebkitgtk-6.0-4 libwebkitgtk-6.0-dev`
 - Arch-based systems: `yay -S gtk4 webkitgtk-6.0`
 - Fedora-based systems: `dnf install gtk4 webkitgtk6.0`
+
 </details>
 
 <details>
@@ -110,6 +111,8 @@ bun build --compile --minify --sourcemap ./index.ts ./worker.ts --outfile webser
 Refer to the comments in the source code for full documentation.
 
 ## Development
+
+Please format all code with [Prettier](https://prettier.io/) and the root `.prettierrc`. You can run `bun pretty` to automatically do this if it is not integrated in your IDE.
 
 > [!IMPORTANT]  
 > If you are on **Windows,** you need C++ Build Tools.

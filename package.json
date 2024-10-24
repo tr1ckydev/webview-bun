@@ -12,7 +12,7 @@
   "scripts": {
     "build": "bun scripts/build.ts",
     "clean": "bun exec \"rm -rf webview/build\"",
-    "pretty": "bun prettier . --write"
+    "pretty": "bunx --bun prettier . --write"
   },
   "repository": {
     "type": "git",
