@@ -13,12 +13,14 @@ switch (platform) {
   case "linux":
     await $`
         cd webview
-        cmake -G "Ninja Multi-Config" -B build -S . -DWEBVIEW_WEBKITGTK_API=6.0
-        cmake --build build --config Release
-        cp build/core/Release/libwebview.so ../build/libwebview-${arch}.so
+        export PATH=/usr/lib/llvm14/bin/:/usr/lib/llvm-14/bin/:/usr/lib64/llvm15/bin/:$PATH
+        cmake -G Ninja -B build -S . -D CMAKE_BUILD_TYPE=Release -D WEBVIEW_WEBKITGTK_API=6.0 -DWEBVIEW_ENABLE_CHECKS=false -DCMAKE_TOOLCHAIN_FILE=cmake/toolchains/host-llvm.cmake
+        cmake --build build
+        cp build/core/libwebview.so ../build/libwebview-${arch}.so
         strip ../build/libwebview-${arch}.so
         `;
     break;
+
   case "darwin":
     await $`
         cd webview

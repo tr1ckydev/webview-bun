@@ -14,8 +14,8 @@ Webview is a tiny cross-platform library to make **web-based GUIs for desktop ap
 
 > To use a different version, see Development section below.
 
-- Debian-based systems: `apt install libgtk-4-1 libwebkitgtk-6.0-4 libwebkitgtk-6.0-dev`
-- Arch-based systems: `yay -S gtk4 webkitgtk-6.0`
+- Debian-based systems: `apt install libgtk-4-1 libwebkitgtk-6.0-4`
+- Arch-based systems: `pacman -S gtk4 webkitgtk-6.0` 
 - Fedora-based systems: `dnf install gtk4 webkitgtk6.0`
 
 </details>
@@ -112,23 +112,35 @@ Refer to the comments in the source code for full documentation.
 
 ## Development
 
-Please format all code with [Prettier](https://prettier.io/) and the root `.prettierrc`. You can run `bun pretty` to automatically do this if it is not integrated in your IDE.
-
-> [!IMPORTANT]  
-> If you are on **Windows,** you need C++ Build Tools.
->
-> - Go to https://visualstudio.microsoft.com/downloads.
-> - Scroll down > _All Downloads_ > _Tools for Visual Studio_.
-> - Download _Build Tools for Visual Studio 2022_ and run.
-> - Select _Desktop development with C++_ and install.
+Please format all code with [Prettier](https://prettier.io/) using the root `.prettierrc` configuration. You can run `bun pretty` to automatically format all files if you prefer to not integrated Prettier into your IDE.
 
 ### Prerequisites
 
-In addition to the dependencies mentioned during the Installation section, you need,
+In addition to the dependencies mentioned during the Installation section, you will need additional build tools including;
 
 - `cmake`
 - `ninja`
 - `python3`
+
+#### If you are on **Windows,** you need C++ Build Tools.
+- Go to https://visualstudio.microsoft.com/downloads.
+- Scroll down > _All Downloads_ > _Tools for Visual Studio_.
+- Download _Build Tools for Visual Studio 2022_ and run.
+- Select _Desktop development with C++_ and install.
+
+#### Various linux distribution examples:
+- Debian 12
+```
+sudo apt install cmake ninja-build python3 clang-14 clang-format-14 libwebkitgtk-6.0-dev
+```
+- Fedora 40
+```
+sudo dnf install cmake ninja-build python3 clang15 clang-tools-extra webkitgtk6.0-devel
+```
+- Arch
+```
+sudo pacman -S cmake ninja python3 clang14 
+```
 
 ### Building
 
@@ -158,7 +170,7 @@ The compiled library file can be found inside the `build` folder.
 
 ### Customization
 
-🐧 For linux, if you want to use a different WebkitGTK version, change the cmake `WEBVIEW_WEBKITGTK_API` option in _build.ts_ to one of the [available values](https://github.com/webview/webview?tab=readme-ov-file#linux-specific-options).
+🐧 For linux, if you want to use a different WebkitGTK version, change the cmake `WEBVIEW_WEBKITGTK_API` option in _build.ts_ to one of the [available values](https://github.com/webview/webview?tab=readme-ov-file#linux-specific-options). Be sure to first install the corresponding version libraries.
 
 🪟 For windows, if you want to bundle a specific webview version instead of using the system installed one, set the cmake `WEBVIEW_MSWEBVIEW2_VERSION` option to one of the [NuGet version strings](https://www.nuget.org/packages/Microsoft.Web.WebView2/#versions-body-tab).
 
