@@ -1,8 +1,9 @@
-const server = Bun.serve({
-  fetch() {
-    return Response.json({ success: true });
-  },
-});
+import { Webview } from "../../src";
 
-const worker = new Worker("./worker.ts");
-worker.addEventListener("close", () => server.stop(true));
+const worker = new Worker(Bun.resolveSync("./worker.ts", import.meta.dir));
+
+const webview = new Webview();
+webview.navigate("http://localhost:3000/");
+webview.run();
+
+worker.addEventListener("close", () => webview.destroy());

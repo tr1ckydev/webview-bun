@@ -1,5 +1,5 @@
-import { Webview } from "../../src";
-
-const webview = new Webview();
-webview.navigate("http://localhost:3000/");
-webview.run();
+const server = Bun.serve({
+    fetch() {
+      return Response.json({ success: true });
+    },
+});
