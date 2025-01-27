@@ -1,5 +1,4 @@
 import { $ } from "bun";
-$.nothrow();
 
 const { arch, platform } = process;
 
@@ -24,10 +23,19 @@ switch (platform) {
   case "darwin":
     await $`
         cd webview
-        cmake -G "Ninja Multi-Config" -B build -S . -DCMAKE_TOOLCHAIN_FILE=cmake/toolchains/universal-macos-llvm.cmake
+        cmake -G "Ninja Multi-Config" -B build -S . \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DWEBVIEW_BUILD_TESTS=OFF \
+              -DWEBVIEW_BUILD_EXAMPLES=OFF \
+              -DWEBVIEW_USE_CLANG_TOOLS=OFF \
+              -DWEBVIEW_ENABLE_CHECKS=OFF \
+              -DWEBVIEW_USE_CLANG_TIDY=OFF \
+              -DWEBVIEW_BUILD_DOCS=OFF \
+              -DWEBVIEW_USE_CLANG_FORMAT=OFF \
+              -DWEBVIEW_CLANG_FORMAT_EXE=${process.env.WEBVIEW_CLANG_FORMAT_EXE}
         cmake --build build --config Release
-        cp build/core/Release/libwebview.dylib ../build/libwebview.dylib
-        strip -x -S ../build/libwebview.dylib
-        `;
+        cp build/core/Release/libwebview.dylib ../build/libwebview.${arch}.dylib
+        strip -x -S ../build/libwebview.${arch}.dylib
+        `
     break;
 }
