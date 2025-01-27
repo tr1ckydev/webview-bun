@@ -4,14 +4,13 @@ on:
   push:
     branches:
       - main
-      - ci
-    # paths:
-    #   - ".github/workflows/**"
-    #   - "script/build.*"
-    #   - "src/ffi.ts"
-    #   - "webview/**"
-    #   - ".gitmodules"
-    #   - "package.json"
+    paths:
+      - ".github/workflows/**"
+      - "script/build.*"
+      - "src/ffi.ts"
+      - "webview/**"
+      - ".gitmodules"
+      - "package.json"
 
 jobs:
   build:
