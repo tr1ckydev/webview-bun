@@ -1,4 +1,5 @@
 node_modules/
 bun.lockb
 .vscode
+.zed
 /webview/**

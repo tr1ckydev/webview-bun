@@ -1,0 +1,82 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/**"
+      - "script/build.*"
+      - "src/ffi.ts"
+      - "webview/**"
+      - ".gitmodules"
+      - "package.json"
+
+jobs:
+  build:
+    name: ${{ matrix.kind }} ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      matrix:
+        os:
+          [
+            macos-latest,
+            macos-13,
+            windows-latest,
+            ubuntu-latest,
+            ubuntu-24.04-arm,
+          ]
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: install webkit2gtk (Linux)
+        if: startsWith(matrix.os, 'ubuntu')
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y webkitgtk-6.0 libwebkitgtk-6.0-dev cmake ninja-build clang pkg-config libgtk-4-dev
+
+      - name: Install ninja (macOS)
+        if: startsWith(matrix.os, 'macos')
+        run: |
+          brew install ninja
+          brew install llvm
+          echo "WEBVIEW_CLANG_FORMAT_EXE=$(brew --prefix llvm)/bin/clang-format" >> $GITHUB_ENV
+
+      - name: Install ninja (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          choco install ninja
+
+      - name: Build dynamic library
+        run: bun scripts/build.ts
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: |
+            build/*.dll
+            build/*.dylib
+            build/*.so
+
+      # - name: Release Plugin
+      #   uses: softprops/action-gh-release@master
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: "0.9.1"
+      #     files: |
+      #       build/libwebview.x86_64.dylib
+      #       build/libwebview.aarch64.dylib
+      #       build/libwebview.x86_64.so
+      #       build/libwebview.aarch64.so
+      #       build/webview.dll
+      #       build/Webview2Loader.dll
