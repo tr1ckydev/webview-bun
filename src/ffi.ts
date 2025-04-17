@@ -28,8 +28,6 @@ if (process.env.WEBVIEW_PATH) {
 } else if (process.platform === "darwin") {
   //@ts-expect-error
   lib_file = await import("../build/libwebview.dylib");
-} else {
-  throw `unsupported platform: ${process.platform}-${process.arch}`;
 }
 
 export const lib = dlopen(lib_file.default, {

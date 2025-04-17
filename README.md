@@ -15,7 +15,7 @@ Webview is a tiny cross-platform library to make **web-based GUIs for desktop ap
 > To use a different version, see Development section below.
 
 - Debian-based systems: `apt install libgtk-4-1 libwebkitgtk-6.0-4`
-- Arch-based systems: `pacman -S gtk4 webkitgtk-6.0` 
+- Arch-based systems: `pacman -S gtk4 webkitgtk-6.0`
 - Fedora-based systems: `dnf install gtk4 webkitgtk6.0`
 
 </details>
@@ -123,23 +123,30 @@ In addition to the dependencies mentioned during the Installation section, you w
 - `python3`
 
 #### If you are on **Windows,** you need C++ Build Tools.
+
 - Go to https://visualstudio.microsoft.com/downloads.
 - Scroll down > _All Downloads_ > _Tools for Visual Studio_.
 - Download _Build Tools for Visual Studio 2022_ and run.
 - Select _Desktop development with C++_ and install.
 
 #### Various linux distribution examples:
+
 - Debian 12
+
 ```
 sudo apt install cmake ninja-build python3 clang-14 clang-format-14 libwebkitgtk-6.0-dev
 ```
+
 - Fedora 40
+
 ```
 sudo dnf install cmake ninja-build python3 clang15 clang-tools-extra webkitgtk6.0-devel
 ```
+
 - Arch
+
 ```
-sudo pacman -S cmake ninja python3 clang14 
+sudo pacman -S cmake ninja python3 clang14
 ```
 
 ### Building

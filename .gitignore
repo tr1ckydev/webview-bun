@@ -1,4 +1,2 @@
 node_modules/
-bun.lockb
-.vscode
-/webview/**
+bun.lock
