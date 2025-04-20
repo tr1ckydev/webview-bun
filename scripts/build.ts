@@ -29,7 +29,13 @@ switch (platform) {
   case "darwin":
     await $`
         cd webview
-        cmake -G "Ninja Multi-Config" -B build -S . -DCMAKE_TOOLCHAIN_FILE=cmake/toolchains/universal-macos-llvm.cmake
+        cmake -G "Ninja Multi-Config" -B build -S . \
+            -DCMAKE_TOOLCHAIN_FILE=cmake/toolchains/universal-macos-llvm.cmake \
+            -DWEBVIEW_ENABLE_CHECKS=false \
+            -DWEBVIEW_BUILD_AMALGAMATION=false \
+            -DWEBVIEW_BUILD_EXAMPLES=false \
+            -DWEBVIEW_BUILD_STATIC_LIBRARY=false \
+            -DWEBVIEW_BUILD_TESTS=false
         cmake --build build --config Release
         cp build/core/Release/libwebview.dylib ../build/libwebview.dylib
         strip -x -S ../build/libwebview.dylib

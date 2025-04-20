@@ -21,5 +21,10 @@ echo Found %vc_dir%
 call "%vc_dir%\Common7\Tools\vsdevcmd.bat" -arch=x64 -host_arch=x64
 cd %~dp0..\webview
 
-cmake -G "Ninja Multi-Config" -B build -S .
+cmake -G "Ninja Multi-Config" -B build -S . ^
+	-DWEBVIEW_ENABLE_CHECKS=false ^
+	-DWEBVIEW_BUILD_AMALGAMATION=false ^
+	-DWEBVIEW_BUILD_EXAMPLES=false ^
+	-DWEBVIEW_BUILD_STATIC_LIBRARY=false ^
+	-DWEBVIEW_BUILD_TESTS=false
 cmake --build build --config Release
